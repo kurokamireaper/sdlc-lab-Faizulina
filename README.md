@@ -18,7 +18,7 @@ Software Development Life Cycle (SDLC) — Життєвий цикл прогр�
    prototype.png
    
 5) Реалізація.
-   '''
+```
    state:
   dailyGoal := 10000
   stepsByDate := map<date, integer> // { "2025-09-30": 7200, ... }
@@ -51,7 +51,7 @@ function editSteps(date, newValue):
 
 function getHistory(lastNDays):
   return list of (date, steps) for lastNDays sorted by date desc
-'''
+```
 
 6) Тестування.
    
