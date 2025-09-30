@@ -17,8 +17,41 @@ Software Development Life Cycle (SDLC) — Життєвий цикл прогр�
 3) Дизайн — Прототип.
    prototype.png
    
-5) Реалізація JS
-   reasisation.js
+5) Реалізація.
+   '''
+   state:
+  dailyGoal := 10000
+  stepsByDate := map<date, integer> // { "2025-09-30": 7200, ... }
+
+function addSteps(date, stepsInput):
+  if stepsInput is null OR not integer(stepsInput):
+      return "Error: Некоректний формат числа"
+  if stepsInput <= 0:
+      return "Error: Кроки мають бути > 0"
+  current := stepsByDate.getOrDefault(date, 0)
+  stepsByDate[date] := current + stepsInput
+  return "Success: Додано " + stepsInput
+
+function setDailyGoal(newGoal):
+  if not integer(newGoal) OR newGoal < 1000 OR newGoal > 50000:
+      return "Error: Ціль має бути від 1000 до 50000"
+  dailyGoal := newGoal
+  return "Success: Ціль оновлено"
+
+function getTodayProgress(today):
+  todaySteps := stepsByDate.getOrDefault(today, 0)
+  percent := clamp( round( (todaySteps / dailyGoal) * 100 ), 0, 100 )
+  return { todaySteps, dailyGoal, percent }
+
+function editSteps(date, newValue):
+  if not integer(newValue) OR newValue < 0:
+      return "Error: Значення має бути ≥ 0"
+  stepsByDate[date] := newValue
+  return "Success: Оновлено"
+
+function getHistory(lastNDays):
+  return list of (date, steps) for lastNDays sorted by date desc
+'''
 
 6) Тестування.
    
@@ -34,7 +67,7 @@ Software Development Life Cycle (SDLC) — Життєвий цикл прогр�
 Дія: addSteps(сьогодні, 0) або addSteps(сьогодні, -200)
 Очікувано: помилка Error("Кроки мають бути > 0"); стан не змінюється.
 
-6. Висновки.
+7. Висновки.
 Для цього навчального застосунку оптимально підходить Agile-підхід із короткими ітераціями.
 Це дає можливість швидко розширювати функціонал (наприклад, історія кроків, графік прогресу, інтеграція з реальними сенсорами) та гнучко реагувати на зміни вимог чи відгуки користувачів.
 Waterfall тут менш доречний, оскільки кожна зміна вимагала б проходження всіх етапів заново, а Spiral надто складний і громіздкий для маленького проєкту без значних ризиків.
